@@ -1,7 +1,7 @@
 name: Continuous Integration
 on: push
 jobs:
-  scp-test:
+  ci-test:
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -17,11 +17,11 @@ jobs:
       #    else
       #      echo "KEY is set"
       #    fi
-      #- uses: appleboy/scp-action@v1
-      #  with:
-      #    host: ${{secrets.HOST}}
-      #    username: ${{secrets.USERNAME}}
-      #    key: ${{secrets.KEY}}
-      #    source: README.md
-      #    target: "/home/${{ secrets.USERNAME }}/"
-      #    debug: true
+      - uses: appleboy/scp-action@v1
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.KEY}}
+          source: ./dist
+          target: "/home/${{ secrets.USERNAME }}/${{ github.event.repository.name }}"
+          debug: true
