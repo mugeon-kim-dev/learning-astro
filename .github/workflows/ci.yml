@@ -1,0 +1,27 @@
+name: Continuous Integration
+on: push
+jobs:
+  scp-test:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+      - run: npm ci
+      - run: npm test
+      #- name: Check if key exists
+      #  run: |
+      #    if [ -z "${{ secrets.KEY }}" ]; then
+      #      echo "KEY is empty or not set"
+      #      exit 1
+      #    else
+      #      echo "KEY is set"
+      #    fi
+      #- uses: appleboy/scp-action@v1
+      #  with:
+      #    host: ${{secrets.HOST}}
+      #    username: ${{secrets.USERNAME}}
+      #    key: ${{secrets.KEY}}
+      #    source: README.md
+      #    target: "/home/${{ secrets.USERNAME }}/"
+      #    debug: true
