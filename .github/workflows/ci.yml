@@ -9,14 +9,15 @@ jobs:
       - uses: actions/setup-node@v3
       - run: npm ci
       - run: npm run build
-      #- name: Check if key exists
-      #  run: |
-      #    if [ -z "${{ secrets.KEY }}" ]; then
-      #      echo "KEY is empty or not set"
-      #      exit 1
-      #    else
-      #      echo "KEY is set"
-      #    fi
+
+      - uses: appleboy/ssh-action@v1 
+        with:
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.KEY}}
+          script: |
+            rm -r "/home/${{ secrets.USERNAME }}/${{ github.event.repository.name }}/dist"
+
       - uses: appleboy/scp-action@v1
         with:
           host: ${{secrets.HOST}}
@@ -24,4 +25,3 @@ jobs:
           key: ${{secrets.KEY}}
           source: ./dist
           target: "/home/${{ secrets.USERNAME }}/${{ github.event.repository.name }}"
-          debug: true
